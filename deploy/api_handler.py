@@ -11,7 +11,10 @@ from flask import Flask, request, Response
 from script import Projeto
 
 # Carregando o modelo treinado usando pickle
-modelo = pickle.load(open('/home/leonardo/projetos_/formulario_medico/modelo/modelo_treinado.pkl', 'rb'))
+# Obs.: Este é o endereço local do arquivo (endereço absoluto)
+# modelo = pickle.load(open('/home/leonardo/projetos_/formulario_medico/modelo/modelo_treinado.pkl', 'rb'))
+# Obs.: Este é o endereço na nuvem do arquivo (endereço relativo)
+modelo = pickle.load(open('modelo/modelo_treinado.pkl', 'rb'))
 
 app = Flask(__name__)
 

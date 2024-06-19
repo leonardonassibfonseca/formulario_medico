@@ -5,7 +5,11 @@ import pandas as pd
 class Projeto:
     def __init__(self):
         # Carregando em memória as transformações
-        self.home_path = '/home/leonardo/projetos_/formulario_medico/transformacoes/'
+        # Obs.: Este é o endereço local do arquivo (endereço absoluto)
+        # self.home_path = '/home/leonardo/projetos_/formulario_medico/transformacoes/'
+        # Obs.: Este é o endereço na nuvem do arquivo (endereço relativo)
+        self.home_path = 'transformacoes/'
+        
         self.cs_gestant_scaler = pickle.load(open(self.home_path + 'cs_gestant_scaler.pkl', 'rb'))
         self.cs_raca_scaler = pickle.load(open(self.home_path + 'cs_raca_scaler.pkl', 'rb'))
         self.cs_escol_n_scaler = pickle.load(open(self.home_path + 'cs_escol_n_scaler.pkl', 'rb'))

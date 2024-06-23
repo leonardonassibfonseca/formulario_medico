@@ -3,13 +3,13 @@ import pickle
 import pandas as pd
 
 class Projeto:
-    def __init__(self):
-        # Carregando em memória as transformações
+    def __init__(self):        
         # Obs.: Este é o endereço local do arquivo (endereço absoluto)
-        # self.home_path = '/home/leonardo/projetos_/formulario_medico/transformacoes/'
+        self.home_path = '/home/leonardo/projetos_/formulario_medico/transformacoes/'
         # Obs.: Este é o endereço na nuvem do arquivo (endereço relativo)
-        self.home_path = 'transformacoes/'
-        
+        # self.home_path = 'transformacoes/'
+               
+        # Carregando em memória as transformações
         self.cs_gestant_scaler = pickle.load(open(self.home_path + 'cs_gestant_scaler.pkl', 'rb'))
         self.cs_raca_scaler = pickle.load(open(self.home_path + 'cs_raca_scaler.pkl', 'rb'))
         self.cs_escol_n_scaler = pickle.load(open(self.home_path + 'cs_escol_n_scaler.pkl', 'rb'))
@@ -63,20 +63,23 @@ class Projeto:
         # Convertendo em minúsculas
         df1.columns = df1.columns.str.lower()
 
-        # Limpando inconsistências nos dados
-        df1 = df1[df1['cs_sexo'].isin(['M', 'F'])]
-        df1 = df1[df1['cs_gestant'].isin([1, 2, 3, 4, 5, 6, 9])]
+        # Substituir NA's
+        df1['cs_gestant'] = df1['cs_gestant'].apply(lambda x: x if x in [1, 2, 3, 4, 5, 6, 9] else 9)
         df1.loc[df1['cs_sexo'] == 'M', 'cs_gestant'] = 6
-        df1 = df1[df1['ave_suino'].isin([1, 2, 9])]
-        df1 = df1[df1['puerpera'].isin([1, 2, 9])]
+        df1['ave_suino'] = df1['ave_suino'].apply(lambda x: x if x in [1, 2, 9] else 9)
         df1.loc[df1['tp_antivir'] == 9, 'tp_antivir'] = 3
         df1.loc[df1['hospital'] == 3, 'hospital'] = 9
         df1.loc[df1['uti'] == 3, 'uti'] = 9
+        df1['tp_antivir'] = df1.apply(lambda x: 3 if pd.isna(x['tp_antivir']) and x['antiviral'] == 1 else x['tp_antivir'], axis = 1)
+        df1['tp_antivir'] = df1.apply(lambda x: 0 if pd.isna(x['tp_antivir']) and (x['antiviral'] == 2 or x['antiviral'] == 9) else x['tp_antivir'], axis = 1)
+
+        # Excluir NA's
+        df1 = df1[df1['cs_sexo'].isin(['M', 'F'])]
         df1 = df1[df1['amostra'].isin([1, 2, 9])]
         df1 = df1[df1['tp_amostra'].isin([1, 2, 3, 4, 5, 9])]
         df1 = df1[df1['classi_fin'].isin([1, 2, 3, 4, 5])]
         df1 = df1[df1['dose_1_cov'].isin([0, 1])]
-        df1 = df1[df1['dose_ref'].isin([0, 1])]
+        df1 = df1[df1['dose_ref'].isin([0, 1])]        
         
         # Inserindo 9 - Não aplicável nas linhas com NaN
         colunas_a_preencher = ['cs_escol_n', 'cs_zona', 'nosocomial', 'febre', 'tosse', 'garganta',
@@ -91,13 +94,6 @@ class Projeto:
         
         # Preenchendo os valores nulos
         df1 = df1.fillna(valores_a_preencher)
-
-        # Se a variável 'tp_antivir' é NaN e a variável 'antiviral' é 1, então 'tp_antivir' é definida como 3
-        df1['tp_antivir'] = df1.apply(lambda x: 3 if pd.isna(x['tp_antivir']) and x['antiviral'] == 1 else x['tp_antivir'], axis = 1)
-        
-        # Devido à alta incidência de valores ausentes (NaN) na variável 'tp_antivir', foi decidido atribuir o valor de 0 (zero) sempre que a variável 'antiviral'
-        # estiver marcada como 2 ou 9. Essa abordagem foi escolhida para preencher os dados faltantes e garantir a integridade do conjunto de dados
-        df1['tp_antivir'] = df1.apply(lambda x: 0 if pd.isna(x['tp_antivir']) and (x['antiviral'] == 2 or x['antiviral'] == 9) else x['tp_antivir'], axis = 1)  
         return df1
 
     def engenharia_de_variaveis(self, df2):
@@ -110,7 +106,7 @@ class Projeto:
         df2 = df2.drop(columns = ['nu_idade_n', 'tp_idade'], axis = 1)
         
         # Ajustando os rótulos da variável resposta para sejam aceitas no algoritmo xgboost        
-        # Criando um mapeamento de valores antigos para novos valores davariável resposta
+        # Criando um mapeamento de valores antigos para novos valores da variável resposta
         mapeamento = {1: 0, 2: 1, 3: 2, 4: 3, 5: 4}
         df2['classi_fin'] = df2['classi_fin'].map(mapeamento)
         
@@ -140,54 +136,54 @@ class Projeto:
         
     def transformacao_dos_dados(self, df5):
         # Aplicando MinMaxScaler
-        df5['cs_gestant'] = self.cs_gestant_scaler.fit_transform(df5[['cs_gestant']].values)
-        df5['cs_raca'] = self.cs_raca_scaler.fit_transform(df5[['cs_raca']].values)
-        df5['cs_escol_n'] = self.cs_escol_n_scaler.fit_transform(df5[['cs_escol_n']].values)
-        df5['cs_zona'] = self.cs_zona_scaler.fit_transform(df5[['cs_zona']].values)
-        df5['nosocomial'] = self.nosocomial_scaler.fit_transform(df5[['nosocomial']].values)
-        df5['ave_suino'] = self.ave_suino_scaler.fit_transform(df5[['ave_suino']].values)
-        df5['febre'] = self.febre_scaler.fit_transform(df5[['febre']].values)
-        df5['tosse'] = self.tosse_scaler.fit_transform(df5[['tosse']].values)
-        df5['garganta'] = self.garganta_scaler.fit_transform(df5[['garganta']].values)
-        df5['dispneia'] = self.dispneia_scaler.fit_transform(df5[['dispneia']].values)
-        df5['desc_resp'] = self.desc_resp_scaler.fit_transform(df5[['desc_resp']].values)
-        df5['saturacao'] = self.saturacao_scaler.fit_transform(df5[['saturacao']].values)
-        df5['diarreia'] = self.diarreia_scaler.fit_transform(df5[['diarreia']].values)
-        df5['vomito'] = self.vomito_scaler.fit_transform(df5[['vomito']].values)
-        df5['puerpera'] = self.puerpera_scaler.fit_transform(df5[['puerpera']].values)
-        df5['cardiopati'] = self.cardiopati_scaler.fit_transform(df5[['cardiopati']].values)
-        df5['hematologi'] = self.hematologi_scaler.fit_transform(df5[['hematologi']].values)
-        df5['sind_down'] = self.sind_down_scaler.fit_transform(df5[['sind_down']].values)
-        df5['hepatica'] = self.hepatica_scaler.fit_transform(df5[['hepatica']].values)
-        df5['asma'] = self.asma_scaler.fit_transform(df5[['asma']].values)
-        df5['diabetes'] = self.diabetes_scaler.fit_transform(df5[['diabetes']].values)
-        df5['neurologic'] = self.neurologic_scaler.fit_transform(df5[['neurologic']].values)
-        df5['pneumopati'] = self.pneumopati_scaler.fit_transform(df5[['pneumopati']].values)
-        df5['imunodepre'] = self.imunodepre_scaler.fit_transform(df5[['imunodepre']].values)
-        df5['renal'] = self.renal_scaler.fit_transform(df5[['renal']].values)
-        df5['obesidade'] = self.obesidade_scaler.fit_transform(df5[['obesidade']].values)
-        df5['vacina'] = self.vacina_scaler.fit_transform(df5[['vacina']].values)
-        df5['antiviral'] = self.antiviral_scaler.fit_transform(df5[['antiviral']].values)
-        df5['tp_antivir'] = self.tp_antivir_scaler.fit_transform(df5[['tp_antivir']].values)
-        df5['hospital'] = self.hospital_scaler.fit_transform(df5[['hospital']].values)
-        df5['uti'] = self.uti_scaler.fit_transform(df5[['uti']].values)
-        df5['suport_ven'] = self.suport_ven_scaler.fit_transform(df5[['suport_ven']].values)
-        df5['raiox_res'] = self.raiox_res_scaler.fit_transform(df5[['raiox_res']].values)
-        df5['tp_amostra'] = self.tp_amostra_scaler.fit_transform(df5[['tp_amostra']].values)
-        df5['dor_abd'] = self.dor_abd_scaler.fit_transform(df5[['dor_abd']].values)
-        df5['fadiga'] = self.fadiga_scaler.fit_transform(df5[['fadiga']].values)
-        df5['perd_olft'] = self.perd_olft_scaler.fit_transform(df5[['perd_olft']].values)
-        df5['perd_pala'] = self.perd_pala_scaler.fit_transform(df5[['perd_pala']].values)
-        df5['tomo_res'] = self.tomo_res_scaler.fit_transform(df5[['tomo_res']].values)
-        df5['vacina_cov'] = self.vacina_cov_scaler.fit_transform(df5[['vacina_cov']].values)
-        df5['dose_1_cov'] = self.dose_1_cov_scaler.fit_transform(df5[['dose_1_cov']].values)
-        df5['dose_2_cov'] = self.dose_2_cov_scaler.fit_transform(df5[['dose_2_cov']].values)
-        df5['dose_ref'] = self.dose_ref_scaler.fit_transform(df5[['dose_ref']].values)
-        df5['idade_anos'] = self.idade_anos_scaler.fit_transform(df5[['idade_anos']].values)
+        df5['cs_gestant'] = self.cs_gestant_scaler.transform(df5[['cs_gestant']].values)
+        df5['cs_raca'] = self.cs_raca_scaler.transform(df5[['cs_raca']].values)
+        df5['cs_escol_n'] = self.cs_escol_n_scaler.transform(df5[['cs_escol_n']].values)
+        df5['cs_zona'] = self.cs_zona_scaler.transform(df5[['cs_zona']].values)
+        df5['nosocomial'] = self.nosocomial_scaler.transform(df5[['nosocomial']].values)
+        df5['ave_suino'] = self.ave_suino_scaler.transform(df5[['ave_suino']].values)
+        df5['febre'] = self.febre_scaler.transform(df5[['febre']].values)
+        df5['tosse'] = self.tosse_scaler.transform(df5[['tosse']].values)
+        df5['garganta'] = self.garganta_scaler.transform(df5[['garganta']].values)
+        df5['dispneia'] = self.dispneia_scaler.transform(df5[['dispneia']].values)
+        df5['desc_resp'] = self.desc_resp_scaler.transform(df5[['desc_resp']].values)
+        df5['saturacao'] = self.saturacao_scaler.transform(df5[['saturacao']].values)
+        df5['diarreia'] = self.diarreia_scaler.transform(df5[['diarreia']].values)
+        df5['vomito'] = self.vomito_scaler.transform(df5[['vomito']].values)
+        df5['puerpera'] = self.puerpera_scaler.transform(df5[['puerpera']].values)
+        df5['cardiopati'] = self.cardiopati_scaler.transform(df5[['cardiopati']].values)
+        df5['hematologi'] = self.hematologi_scaler.transform(df5[['hematologi']].values)
+        df5['sind_down'] = self.sind_down_scaler.transform(df5[['sind_down']].values)
+        df5['hepatica'] = self.hepatica_scaler.transform(df5[['hepatica']].values)
+        df5['asma'] = self.asma_scaler.transform(df5[['asma']].values)
+        df5['diabetes'] = self.diabetes_scaler.transform(df5[['diabetes']].values)
+        df5['neurologic'] = self.neurologic_scaler.transform(df5[['neurologic']].values)
+        df5['pneumopati'] = self.pneumopati_scaler.transform(df5[['pneumopati']].values)
+        df5['imunodepre'] = self.imunodepre_scaler.transform(df5[['imunodepre']].values)
+        df5['renal'] = self.renal_scaler.transform(df5[['renal']].values)
+        df5['obesidade'] = self.obesidade_scaler.transform(df5[['obesidade']].values)
+        df5['vacina'] = self.vacina_scaler.transform(df5[['vacina']].values)
+        df5['antiviral'] = self.antiviral_scaler.transform(df5[['antiviral']].values)
+        df5['tp_antivir'] = self.tp_antivir_scaler.transform(df5[['tp_antivir']].values)
+        df5['hospital'] = self.hospital_scaler.transform(df5[['hospital']].values)
+        df5['uti'] = self.uti_scaler.transform(df5[['uti']].values)
+        df5['suport_ven'] = self.suport_ven_scaler.transform(df5[['suport_ven']].values)
+        df5['raiox_res'] = self.raiox_res_scaler.transform(df5[['raiox_res']].values)
+        df5['tp_amostra'] = self.tp_amostra_scaler.transform(df5[['tp_amostra']].values)
+        df5['dor_abd'] = self.dor_abd_scaler.transform(df5[['dor_abd']].values)
+        df5['fadiga'] = self.fadiga_scaler.transform(df5[['fadiga']].values)
+        df5['perd_olft'] = self.perd_olft_scaler.transform(df5[['perd_olft']].values)
+        df5['perd_pala'] = self.perd_pala_scaler.transform(df5[['perd_pala']].values)
+        df5['tomo_res'] = self.tomo_res_scaler.transform(df5[['tomo_res']].values)
+        df5['vacina_cov'] = self.vacina_cov_scaler.transform(df5[['vacina_cov']].values)
+        df5['dose_1_cov'] = self.dose_1_cov_scaler.transform(df5[['dose_1_cov']].values)
+        df5['dose_2_cov'] = self.dose_2_cov_scaler.transform(df5[['dose_2_cov']].values)
+        df5['dose_ref'] = self.dose_ref_scaler.transform(df5[['dose_ref']].values)
+        df5['idade_anos'] = self.idade_anos_scaler.transform(df5[['idade_anos']].values)
 
         # Aplicando LabelEncoder
-        df5['sg_uf_not'] = self.sg_uf_not_encoder.fit_transform(df5[['sg_uf_not']].values)
-        df5['cs_sexo'] = self.cs_sexo_encoder.fit_transform(df5[['cs_sexo']].values)
+        df5['sg_uf_not'] = self.sg_uf_not_encoder.transform(df5[['sg_uf_not']].values)
+        df5['cs_sexo'] = self.cs_sexo_encoder.transform(df5[['cs_sexo']].values)
 
         colunas_selecionadas = ['idade_anos', 'tomo_res', 'sg_uf_not',
                                 'raiox_res', 'cs_escol_n', 'suport_ven',

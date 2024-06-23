@@ -3,18 +3,18 @@ import os
 import pandas as pd
 from flask import Flask, request, Response
 
-#Diretório onde está salvo a API handler.py
-#Nome do arquivo.py
-#Nome da classe que foi criada dentro do arquivo.py
+# Diretório onde está salvo a API handler.py
+# Nome do arquivo.py
+# Nome da classe que foi criada dentro do arquivo.py
 
-#from Diretório.arquivo        import classe
+# from Diretório.arquivo        import classe
 from script import Projeto
 
 # Carregando o modelo treinado usando pickle
 # Obs.: Este é o endereço local do arquivo (endereço absoluto)
-# modelo = pickle.load(open('/home/leonardo/projetos_/formulario_medico/modelo/modelo_treinado.pkl', 'rb'))
+modelo = pickle.load(open('/home/leonardo/projetos_/formulario_medico/modelo/modelo_treinado.pkl', 'rb'))
 # Obs.: Este é o endereço na nuvem do arquivo (endereço relativo)
-modelo = pickle.load(open('modelo/modelo_treinado.pkl', 'rb'))
+# modelo = pickle.load(open('modelo/modelo_treinado.pkl', 'rb'))
 
 app = Flask(__name__)
 

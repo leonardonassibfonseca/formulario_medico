@@ -101,22 +101,33 @@ Falsa: Pessoas que não tomaram antiviral tiveram mais sintomas graves.
 ## 6.	Aplicação do modelo de machine learning
 Foram feitos testes com vários algoritmos de machine learning, utilizando a técnica de cross-validation e ajuste fino dos parâmetros.
 
-## 7.	Performance do modelo de machine learning
-O algoritmo de machine learning escolhido foi o XGBRegressor.
- 
 ![Comparativo](img/comparativo_algoritmos.JPG)
 
-## 8.	Resultado do negócio
-Conforme mostrado na figura abaixo, foram adicionados mais 2 cenários além do predito para as próximas 6 semanas em todas as lojas Rossmann, ou seja, um cenário pessimista e outro otimista, com isso o gestou conseguirá tomar a melhor decisão frente aos valores encontrados.
+## 7.	Performance do modelo de machine learning
+O algoritmo de machine learning escolhido foi o XGBRegressor, pois para o problema de negócio em questão a métrica mais relevante seria o RECALL e este algoritmo teve o melhor desempenho neste quesito.
  
- ![Cenarios](img/cenarios.JPG)
+![Formulario_medico](img/melhor_algoritmo.JPG)
+
+## 8.	Resultado do negócio
+Para avaliar qual modelo é melhor em termos de custo, iremos considerar o custo associado aos falsos negativos (quando o modelo não identifica corretamente um caso positivo). O recall representa a proporção de casos positivos que o modelo identifica corretamente em relação ao total de casos positivos reais. Portanto, um recall mais alto indica que o modelo está identificando mais casos positivos. Iremos multiplicar o número de falsos negativos de cada classe pelo custo associado a essa classe.
+Para título de comparação em relação aos custos hospitalares envolvidos, definiu-se valores para cada tipo de SRAG:
+
+* influenza -> 50 unidades monetárias;
+* outro vírus respiratório -> 60 unidades monetárias;
+* agente etiológico -> 80 unidades monetárias;
+* não especificado -> 30 unidades monetárias;
+* COVID-19 -> 90 unidades monetárias.
+ 
+ ![Formulario_medico](img/resultado_negocio.JPG)
+
+Neste caso, a proporção do custo de internação por paciente em relação a uma classificação com algoritmo de média em comparação com o melhor algoritmo resulta em uma redução de mais de 60%.
 
 ## 9.	Conclusão
-O resultado prático deste projeto de classificação de SRAG previsão de vendas para uma empresa de medicamentos da Europa, reflete-se na capacidade de adicionar cenários otimistas e pessimistas além das previsões tradicionais. Essa abordagem oferece aos gestores uma visão mais abrangente, permitindo a tomada de decisões mais informadas diante de diferentes contextos.
-Dentre os principais insights, destacam-se a falsificação de hipóteses relacionadas à variedade de produtos, tendência de vendas ao longo dos anos e desempenho durante o feriado de Natal. Esses insights desafiam preconcepções e contribuem para uma compreensão mais precisa dos padrões de vendas.
-Em última análise, o projeto não apenas fornece um modelo de previsão confiável, mas também agrega valor ao negócio ao oferecer insights valiosos e cenários alternativos. A implementação prática do modelo permite que a Rossmann tome decisões estratégicas mais fundamentadas em um ambiente de negócios dinâmico e complexo.
+Neste projeto, avaliamos diferentes modelos de classificação para identificar casos de Síndrome Respiratória Aguda Grave (SRAG) e os comparamos em termos de custo associado aos falsos negativos. Utilizando o recall como métrica principal, buscamos maximizar a identificação correta de casos positivos, minimizando os custos hospitalares associados a cada tipo de SRAG.
+Os resultados mostraram que a proporção do custo de internação por paciente utilizando o melhor algoritmo em comparação com um algoritmo de média resultou em uma redução de mais de 60%. Este achado destaca a importância de uma classificação precisa para otimizar a alocação de recursos e reduzir os custos hospitalares. A implementação de um modelo de classificação eficaz pode melhorar significativamente a resposta a surtos de SRAG, auxiliando na tomada de decisões mais informadas e na implementação de medidas de saúde pública mais eficazes.
 
 ## 10.	Próximos passos
-•	Fazer o balanceamento dos dados;
+•	Utilizar outras técnicas para tratamento de grandes dados;
 •	Testar outros algoritmos de machine learning;
-•	Buscar novas variáveis para definir melhor o comportamento dos clientes.
+•	Implementar mais variáveis para definir melhor o comportamento dos clientes;
+•	Fazer o deploy deste projeto em ambiente cloud. 

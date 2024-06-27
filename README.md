@@ -2,7 +2,7 @@
 
 Classificação para sínndrome respiratória agúda grave
 
-![Rossmann](img/rossmann.jpg)
+![Formulario_medico](img/imagem_projeto.jpg)
 
 ## 1.	Problema de negócio
 A classificação inadequada ou a falta de dados precisos sobre Síndrome Respiratória Aguda Grave (SRAG) pode levar a decisões de saúde pública ineficazes, subnotificação ou supernotificação de casos, monitoramento insuficiente da evolução da doença e dificuldades na identificação de tendências e surtos futuros. Além disso, dados imprecisos prejudicam a pesquisa científica, dificultando a descoberta de novos insights sobre a doença, seus fatores de risco, modos de transmissão e eficácia de tratamentos.

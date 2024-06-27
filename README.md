@@ -88,10 +88,15 @@ Falsa: Pessoas que vivem no interior de Santa Catarina teriam sim maior tendênc
 
 ![Formulario_medico](img/grafico_hipotese_1.JPG)
 
-Hipótese 2: Lojas deveriam vender mais ao longo dos anos?
-Falsa: Lojas NÃO vendem mais ao longo dos anos.
-Hipótese 3: Lojas abertas durante o feriado de natal deveriam vender mais?
-Falsa: Lojas abertas durante o feriado de natal vendem menos em relação a outros tipos de feriados.
+Hipótese 2: Cidades da região sul tem maior tendência a contrair doenças respiratórias?
+Falsa: Cidades da região sul não tem maior tendência a contrair doenças respiratórias e sim a região sudeste.
+
+![Formulario_medico](img/grafico_hipotese_2.JPG)
+
+Hipótese 3: Pessoas que tomaram antiviral tiveram menos sintomas graves?
+Falsa: Pessoas que não tomaram antiviral tiveram mais sintomas graves.
+
+![Formulario_medico](img/grafico_hipotese_3.JPG)
 
 ## 6.	Aplicação do modelo de machine learning
 Foram feitos testes com vários algoritmos de machine learning, utilizando a técnica de cross-validation e ajuste fino dos parâmetros.
@@ -107,7 +112,7 @@ Conforme mostrado na figura abaixo, foram adicionados mais 2 cenários além do 
  ![Cenarios](img/cenarios.JPG)
 
 ## 9.	Conclusão
-O resultado prático deste projeto de previsão de vendas para uma empresa de medicamentos da Europa, reflete-se na capacidade de adicionar cenários otimistas e pessimistas além das previsões tradicionais. Essa abordagem oferece aos gestores uma visão mais abrangente, permitindo a tomada de decisões mais informadas diante de diferentes contextos.
+O resultado prático deste projeto de classificação de SRAG previsão de vendas para uma empresa de medicamentos da Europa, reflete-se na capacidade de adicionar cenários otimistas e pessimistas além das previsões tradicionais. Essa abordagem oferece aos gestores uma visão mais abrangente, permitindo a tomada de decisões mais informadas diante de diferentes contextos.
 Dentre os principais insights, destacam-se a falsificação de hipóteses relacionadas à variedade de produtos, tendência de vendas ao longo dos anos e desempenho durante o feriado de Natal. Esses insights desafiam preconcepções e contribuem para uma compreensão mais precisa dos padrões de vendas.
 Em última análise, o projeto não apenas fornece um modelo de previsão confiável, mas também agrega valor ao negócio ao oferecer insights valiosos e cenários alternativos. A implementação prática do modelo permite que a Rossmann tome decisões estratégicas mais fundamentadas em um ambiente de negócios dinâmico e complexo.
 

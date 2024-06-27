@@ -112,11 +112,15 @@ O algoritmo de machine learning escolhido foi o XGBRegressor, pois para o proble
 Para avaliar qual modelo é melhor em termos de custo, iremos considerar o custo associado aos falsos negativos (quando o modelo não identifica corretamente um caso positivo). O recall representa a proporção de casos positivos que o modelo identifica corretamente em relação ao total de casos positivos reais. Portanto, um recall mais alto indica que o modelo está identificando mais casos positivos. Iremos multiplicar o número de falsos negativos de cada classe pelo custo associado a essa classe.
 Para título de comparação em relação aos custos hospitalares envolvidos, definiu-se valores para cada tipo de SRAG:
 
-* influenza -> 50 unidades monetárias;
-* outro vírus respiratório -> 60 unidades monetárias;
-* agente etiológico -> 80 unidades monetárias;
-* não especificado -> 30 unidades monetárias;
-* COVID-19 -> 90 unidades monetárias.
+• influenza -> 50 unidades monetárias;
+ 
+• outro vírus respiratório -> 60 unidades monetárias;
+
+• agente etiológico -> 80 unidades monetárias;
+
+• não especificado -> 30 unidades monetárias;
+
+• COVID-19 -> 90 unidades monetárias.
  
  ![Formulario_medico](img/resultado_negocio.JPG)
 
@@ -128,6 +132,9 @@ Os resultados mostraram que a proporção do custo de internação por paciente 
 
 ## 10.	Próximos passos
 •	Utilizar outras técnicas para tratamento de grandes dados;
+
 •	Testar outros algoritmos de machine learning;
+
 •	Implementar mais variáveis para definir melhor o comportamento dos clientes;
+
 •	Fazer o deploy deste projeto em ambiente cloud. 

@@ -109,7 +109,11 @@ O algoritmo de machine learning escolhido foi o XGBRegressor, pois para o proble
 ![Formulario_medico](img/melhor_algoritmo.JPG)
 
 ## 8.	Resultado do negócio
-Para avaliar qual modelo é melhor em termos de custo, iremos considerar o custo associado aos falsos negativos (quando o modelo não identifica corretamente um caso positivo). O recall representa a proporção de casos positivos que o modelo identifica corretamente em relação ao total de casos positivos reais. Portanto, um recall mais alto indica que o modelo está identificando mais casos positivos. Iremos multiplicar o número de falsos negativos de cada classe pelo custo associado a essa classe.
+Para avaliar qual modelo é melhor em termos de custo, iremos considerar o custo associado aos falsos negativos (quando o modelo não identifica corretamente um caso positivo). 
+
+O recall representa a proporção de casos positivos que o modelo identifica corretamente em relação ao total de casos positivos reais. 
+
+Portanto, um recall mais alto indica que o modelo está identificando mais casos positivos. Iremos multiplicar o número de falsos negativos de cada classe pelo custo associado a essa classe.
 Para título de comparação em relação aos custos hospitalares envolvidos, definiu-se valores para cada tipo de SRAG:
 
 • influenza -> 50 unidades monetárias;

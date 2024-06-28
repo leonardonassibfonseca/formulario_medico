@@ -128,6 +128,7 @@ Neste caso, a proporção do custo de internação por paciente em relação a u
 
 ## 9.	Conclusão
 Neste projeto, avaliamos diferentes modelos de classificação para identificar casos de Síndrome Respiratória Aguda Grave (SRAG) e os comparamos em termos de custo associado aos falsos negativos. Utilizando o recall como métrica principal, buscamos maximizar a identificação correta de casos positivos, minimizando os custos hospitalares associados a cada tipo de SRAG.
+
 Os resultados mostraram que a proporção do custo de internação por paciente utilizando o melhor algoritmo em comparação com um algoritmo de média resultou em uma redução de mais de 60%. Este achado destaca a importância de uma classificação precisa para otimizar a alocação de recursos e reduzir os custos hospitalares. A implementação de um modelo de classificação eficaz pode melhorar significativamente a resposta a surtos de SRAG, auxiliando na tomada de decisões mais informadas e na implementação de medidas de saúde pública mais eficazes.
 
 ## 10.	Próximos passos

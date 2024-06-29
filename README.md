@@ -136,7 +136,7 @@ Neste projeto, avaliamos diferentes modelos de classificação para identificar 
 Os resultados mostraram que a proporção do custo de internação por paciente utilizando o melhor algoritmo em comparação com um algoritmo de média resultou em uma redução de mais de 60%. Este achado destaca a importância de uma classificação precisa para otimizar a alocação de recursos e reduzir os custos hospitalares. A implementação de um modelo de classificação eficaz pode melhorar significativamente a resposta a surtos de SRAG, auxiliando na tomada de decisões mais informadas e na implementação de medidas de saúde pública mais eficazes.
 
 Criado um formulário eletrônico na Web onde é possivel preencher os dados do paciente para obter a classificação prevista. 
-![Formulario_medico](img/formulario_medico.JPG)
+![Formulario_medico](img/formulario_medico.jpg)
 
 ## 10.	Próximos passos
 •	Utilizar outras técnicas para tratamento de grandes dados;
